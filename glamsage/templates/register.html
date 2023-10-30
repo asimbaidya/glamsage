@@ -3,7 +3,13 @@
 <!--  -->
 {% block content %}
 <!--  -->
-<div class="form-container">
+<div class="mb-2 btn btn-outline-warning">
+  <a class="text-decoration-none" href="{{ url_for('provider_register')}}">
+    Join as Provider
+  </a>
+</div>
+<!--  -->
+<div class="form-container p-4" style="background-color: antiquewhite">
   <form method="POST" action="">
     <div class="mb-3">
       <label for="first_name" class="form-label">First Name</label>
@@ -14,15 +20,15 @@
       <input type="text" class="form-control" name="last_name" required />
     </div>
     <div class="mb-3">
-      <label for="exampleInputUserName" class="form-label">User Name</label>
+      <label for="UserName" class="form-label">User Name</label>
       <input type="text" class="form-control" name="username" required />
     </div>
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <label for="Email1" class="form-label">Email address</label>
       <input type="email" class="form-control" name="email" required />
     </div>
     <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <label for="Password1" class="form-label">Password</label>
       <input type="password" class="form-control" name="password" required />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
