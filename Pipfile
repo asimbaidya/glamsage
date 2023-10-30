@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bcrypt = "*"
+blinker = "*"
+certifi = "*"
+cffi = "*"
+click = "*"
+flask = "*"
+flask-bcrypt = "*"
+flask-mail = "*"
+flask-sqlalchemy = "*"
+flask-wtf = "*"
+itsdangerous = "*"
+jinja2 = "*"
+markupsafe = "*"
+pillow = "*"
+pycparser = "*"
+six = "*"
+sqlalchemy = "*"
+werkzeug = "*"
+wtforms = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
