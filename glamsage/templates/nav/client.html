@@ -1,0 +1,393 @@
+<!-- /nav -->
+<div class="bg-nav-bg navbar h-6">
+  <div
+    role="tablist"
+    class="navbar-start tabs tabs-bordered m-0 hidden h-full flex-1  bg-transparent p-0 lg:flex"
+  >
+    <a
+      href="{{ url_for('glamsage.home' ) }}"
+      role="tab"
+      class="text-nav-text j tab h-full text-3xl "
+      >GlamSage</a
+    >
+    <a
+      href="{{ url_for('services.all_service')}}"
+      role="tab"
+      class="text-nav-text tab h-full text-2xl "
+      >Services</a
+    >
+    <a
+      href="{{ url_for('glamsage.about' ) }}"
+      role="tab"
+      class="text-nav-text tab h-full  text-xl"
+    >
+      About
+    </a>
+  </div>
+
+  <!-- routes/dropdown -->
+  <div class="navbar-start h-full flex-1 lg:hidden">
+    <div class="dropdown">
+      <div
+        tabindex="0"
+        role="button"
+        class="btn btn-circle btn-ghost text-black"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-10 w-10"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+          />
+        </svg>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-md bg-black p-2 shadow"
+      >
+        <li>
+          <a href="/home">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/about">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+              />
+            </svg>
+            About</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('services.all_service')}}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+              />
+            </svg>
+
+            Services
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="navbar-center h-full">
+    <a
+      href="/search"
+      class="text-nav-text select-none bg-none text-5xl transition-all hover:cursor-pointer active:text-4xl"
+      >search</a
+    >
+  </div>
+
+  <!-- right -->
+  <div class="h-full flex-1 justify-end">
+    {% if session.current_user and session.current_user['_is_authenticated'] %}
+    <!-- cart dropdown -->
+    <div class="dropdown dropdown-end">
+      <div
+        tabindex="0"
+        role="button"
+        class="btn btn-circle btn-ghost m-0 text-black"
+      >
+        <div class="indicator">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <span
+            id="total_service"
+            class="badge indicator-item badge-secondary badge-sm"
+          >
+            <!-- prettier-ignore -->
+            {% if session.get('current_user') and session.get('current_user')['_is_client'] %}
+              {{ session.get('cart')['total_services'] }}
+            {% else %}
+              0
+              {{session.get('cart')}}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <div
+        tabindex="0"
+        class="card dropdown-content card-compact z-[1] mt-3 w-52 rounded-md bg-black shadow"
+      >
+        <div class="card-body">
+          <span
+            id="total_service"
+            class="text-lg font-bold text-white"
+          >
+            <!-- prettier-ignore -->
+            {% if session.get('current_user') and session.get('current_user')['_is_client'] %}
+              Total Services {{ session.get('cart')['total_services'] }}
+            {% else %}
+              Empty
+              {{session.get('cart')}}
+            {% endif %}
+          </span>
+
+          <!-- prettier-ignore -->
+          {% if session.get('current_user') and session.get('current_user')['_is_client'] %}
+          <span
+            class="text-lg text-info"
+            id="total_price"
+            >Subtotal: ৳ {{ session.get('cart')['total_price'] }}</span
+          >
+          {% endif %}
+          <div class="card-actions">
+            <a
+              href="/cart"
+              class="btn btn-primary btn-block"
+              >View Cart</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- provile dropdown -->
+    <div class="dropdown dropdown-end">
+      <div
+        tabindex="0"
+        role="button"
+        class="avatar btn btn-circle btn-ghost"
+      >
+        <div class="w-10 rounded-full">
+          <img
+            alt="Tailwind CSS Navbar component"
+            src="{{session.current_user['profile_image']}}"
+          />
+        </div>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-md bg-black p-2 shadow"
+      >
+        <li>
+          <a href="{{ url_for('posts.new_post' ) }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="bg-nav-text h-6 w-6 rounded-full p-1"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+            <span class="bg-nav-text badge h-full w-3/4 text-lg  text-black">
+              Post
+            </span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="{{ url_for('clients.client',username=session.current_user['username']) }}"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="bg-nav-text h-6 w-6 rounded-full p-1"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <span class="bg-nav-text badge h-full w-3/4 text-lg  text-black">
+              {{session.current_user['username']}}
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('glamsage.logout')}}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="bg-nav-text h-6 w-6 rounded-full p-1"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            <span class="bg-nav-text badge h-full w-3/4 text-lg  text-black"
+              >Logout</span
+            >
+          </a>
+        </li>
+      </ul>
+
+      {% else %}
+
+      <div class="dropdown dropdown-end transition-all duration-1000">
+        <div
+          tabindex="0"
+          role="button"
+          class="text-nav-text btn bg-slate-800"
+        >
+          <div class="w-10 rounded-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-8 w-8 rounded-full transition-colors duration-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </div>
+          <span class="text-lg"> Login? </span>
+        </div>
+        <ul
+          tabindex="0"
+          class="bg-nav-bg menu dropdown-content menu-sm z-[1] mt-3 w-52  rounded-md p-2 shadow"
+        >
+          <li>
+            <a
+              href="/login"
+              hx-target="#_content"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="bg-nav-text h-6 w-6 rounded-full p-1"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
+              </svg>
+              <span class="bg-nav-text badge h-full w-3/4 text-lg  text-black"
+                >Client</span
+              >
+            </a>
+          </li>
+          <li>
+            <a href='{{url_for("providers.login")}}'>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="bg-nav-text h-6 w-6 rounded-full p-1"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"
+                />
+              </svg>
+              <span class="bg-nav-text badge h-full w-3/4 text-lg  text-black"
+                >Provider</span
+              >
+            </a>
+          </li>
+          <li>
+            <a href='{{url_for("admins.admin_login")}}'>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="bg-nav-text h-6 w-6 rounded-full p-1"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"
+                />
+              </svg>
+
+              <span class="bg-nav-text badge h-full w-3/4 text-lg  text-black"
+                >Admin</span
+              >
+            </a>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- /nav -->
+</div>

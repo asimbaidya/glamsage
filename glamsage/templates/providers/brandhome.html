@@ -1,0 +1,167 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="form-container">
+  <form
+    method="POST"
+    action="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        >Brand Profile Image</label
+      >
+      <input
+        class="form-control"
+        id=""
+        type="file"
+        name="brand_profile_image"
+        onchange="readlRL(this)"
+        required
+      />
+      <img
+        class=""
+        id="img_cover_image"
+        src="#"
+        alt="Cover Image"
+        style="display: none"
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        >Brand Cover Image</label
+      >
+      <input
+        class="form-control"
+        id=""
+        type="file"
+        name="brand_cover_image"
+        onchange="readURL(this)"
+        required
+      />
+      <img
+        class=""
+        id="img_cover_image"
+        src="#"
+        alt="Cover Image"
+        style="display: none"
+      />
+    </div>
+    <button
+      type="submit"
+      style="margin: auto; display: block; min-width: 20em"
+      class="btn btn-primary"
+    >
+      Add New Service
+    </button>
+  </form>
+</div>
+
+<script>
+  function readURL(input) {
+    console.log("readURL() called");
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        document.getElementById("img_cover_image").src = e.target.result;
+        // set max  width 50% of screen width
+        document.getElementById("img_cover_image").style.maxWidth = "50%";
+        // set max height 300px% of screen height
+        document.getElementById("img_cover_image").style.maxHeight = "300px";
+        document.getElementById("img_cover_image").style.display = "block";
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+
+{% endblock content%}
+
+<div class="form-container">
+  <form
+    method="POST"
+    action="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        >Brand Profile Image</label
+      >
+      <input
+        class="form-control"
+        id=""
+        type="file"
+        name="brand_profile_image"
+        onchange="readlRL(this)"
+        required
+      />
+      <img
+        class=""
+        id="img_cover_image"
+        src="#"
+        alt="Cover Image"
+        style="display: none"
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        >Brand Cover Image</label
+      >
+      <input
+        class="form-control"
+        id=""
+        type="file"
+        name="brand_cover_image"
+        onchange="readURL(this)"
+        required
+      />
+      <img
+        class=""
+        id="img_cover_image"
+        src="#"
+        alt="Cover Image"
+        style="display: none"
+      />
+    </div>
+    <button
+      type="submit"
+      style="margin: auto; display: block; min-width: 20em"
+      class="btn btn-primary"
+    >
+      Add New Service
+    </button>
+  </form>
+</div>
+
+<script>
+  function readURL(input) {
+    console.log("readURL() called");
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        document.getElementById("img_cover_image").src = e.target.result;
+        // set max  width 50% of screen width
+        document.getElementById("img_cover_image").style.maxWidth = "50%";
+        // set max height 300px% of screen height
+        document.getElementById("img_cover_image").style.maxHeight = "300px";
+        document.getElementById("img_cover_image").style.display = "block";
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+
+{% endblock content%}

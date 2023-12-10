@@ -1,0 +1,25 @@
+{
+  "name": "glamsage-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "wind": "bun x tailwindcss -o ./glamsage/static/lib/tailwind/build/out.css --watch",
+    "wind:p": "bun x tailwindcss -o ./glamsage/static/lib/tailwind/build/out.css -m",
+    "postcss": "bun x postcss  ./glamsage/static/lib/tailwind/build/out.css -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.4.16",
+    "daisyui": "^4.4.18",
+    "postcss": "^8.4.32",
+    "postcss-cli": "^10.1.0",
+    "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.7",
+    "tailwindcss": "^3.3.6"
+  }
+}

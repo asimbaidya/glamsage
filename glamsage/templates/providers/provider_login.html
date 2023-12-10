@@ -1,0 +1,59 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="mx-auto max-w-md">
+  <form
+    method="POST"
+    class="bg-purple-400 p-4"
+    action="{{ url_for('providers.login') }}"
+  >
+    <div class="form-control">
+      <label
+        for="username"
+        class="form-label"
+        >Provider username</label
+      >
+      <input
+        type="text"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="username"
+        required
+      />
+    </div>
+    <div class="form-control">
+      <label
+        for="password"
+        class="form-label"
+        >Password</label
+      >
+      <input
+        type="password"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="password"
+        required
+      />
+    </div>
+    <button
+      type="submit"
+      class="btn mt-2 p-1 px-8 hover:bg-purple-300"
+    >
+      Submit
+    </button>
+    <a
+      class="link m-4 hover:bg-black"
+      href='{{ url_for("providers.reset_request") }}'
+      >Forgot Password?</a
+    >
+  </form>
+</div>
+
+<div class="mt-4 flex items-center justify-center">
+  <a
+    class="btn btn-link bg-purple-200 no-underline hover:bg-purple-400 hover:text-xs hover:no-underline"
+    href='{{ url_for("providers.register") }}'
+    >New Provider?</a
+  >
+</div>
+
+{% endblock content %}

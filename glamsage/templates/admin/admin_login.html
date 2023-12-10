@@ -1,0 +1,49 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="mx-auto max-w-md">
+  <form
+    method="POST"
+    class="bg-gray-300 p-4"
+    action="{{ url_for('admins.admin_login') }}"
+  >
+    <div class="form-control">
+      <label
+        for="username"
+        class="form-label"
+        >Admin username</label
+      >
+      <input
+        type="text"
+        class="form-control rounded-lg p-1"
+        name="username"
+        required
+      />
+    </div>
+    <div class="form-control">
+      <label
+        for="password"
+        class="form-label"
+        >Password</label
+      >
+      <input
+        class="form-control rounded-lg p-1"
+        type="password"
+        name="password"
+        required
+      />
+    </div>
+
+    <div class="form-control">
+      <button
+        type="submit"
+        class="btn mx-auto mt-2 p-1 px-8 "
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

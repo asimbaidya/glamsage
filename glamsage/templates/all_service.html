@@ -1,0 +1,146 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div id="flash"></div>
+<div class="container mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+  <!-- prettier-ignore -->
+  {% for service in services %}
+  <div class="relative m-1 overflow-hidden rounded-md  bg-white shadow-md">
+    <div class="min-h-40 overflow-hidden">
+      <img
+        src="/static/media/services/{{ service.cover_image }}"
+        class="h-full max-h-56 w-full origin-top transform object-cover transition-transform group-hover:scale-105"
+        alt="Service Image"
+      />
+    </div>
+    <div class="p-4">
+      <a
+        href="{{ url_for('services.service_by_id', service_id=service.id) }}"
+        style="text-decoration: none;"
+      >
+        <h5 class="text-purple mb-2 text-lg font-bold text-primary">
+          {{ service.title }}
+        </h5>
+      </a>
+      <p class="mb-4 text-sky-600">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="inline-block h-8 w-8 text-sky-700"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+        </svg>
+        {{ service.provider }}
+      </p>
+      <p class="mb-4">{{ service.description }}</p>
+      <p class="text-black">Price: ৳{{ service.price }}</p>
+      <!-- prettier-ignore -->
+      {% if service.discount %}
+      <p class="text-red-500">Discount: ৳{{ service.discount }}</p>
+      {% endif %}
+      <div class="mt-2">
+        <!-- prettier-ignore -->
+        {% if session.get('current_user') and session.get('current_user')['_is_client'] %}
+        <button
+          class="mx-auto mt-4 block rounded-full border-none bg-primary px-4 py-2 text-white"
+          onclick="addToCart('{{ service.id }}')"
+        >
+          Add to Cart
+        </button>
+        {% elif not (session.get('current_user') and
+        session.get('current_user')['_is_authenticated']) %}
+        <a
+          class="btn rounded-full border-none bg-primary px-4 py-2 text-white"
+          onclick="addToCart('{{ service.id }}')"
+          href="{{url_for('clients.login')}}"
+        >
+          Login to book an Appoinment
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  function addToCart(service_id) {
+    // Make a GET request to your server to add the service to the cart
+    $.get(`/add_to_cart?service_id=${service_id}`, function (data, status) {
+      if (status == "success") {
+        console.log(data)
+        // todo handle rendering
+        const flag = data["flag"];
+        const msg = data["msg"];
+
+        const flash = document.createElement("div")
+        flash.innerHTML = msg;
+        flash.classList.add("flash_alert",  "text-white", "text-center", "p-2", "rounded-md", "my-2")
+        if (flag == 0) {
+          flash.classList.add("bg-green-500")
+        } else {
+          flash.classList.add("bg-red-500")
+        }
+        $(document).ready(function() {
+          setTimeout(function() {
+            $('.flash_alert').fadeOut('slow')
+          }, 3000);
+        })
+        document.querySelector("#flash").appendChild(flash)
+
+        const cart_count = data["cart_count"];
+        const elements = document.querySelectorAll("#total_service");
+        if (elements) {
+          for (let ele of elements) {
+            ele.innerHTML = cart_count;
+          }
+        } else {
+          alert("#cart_count elements not found")
+        }
+        const price_ele = document.querySelector("#total_price");
+        const total_price = data["total_price"];
+        if(price_ele){
+          price_ele.innerHTML = total_price;
+        }
+        else{
+          alert("#total_price element not found")
+        }
+      } else {
+        console.log("Server is not responding", status);
+      }
+    });
+  }
+</script>
+
+<!-- script -->
+<!-- to show submitted image instantaneously in the browser before sending to server -->
+<script>
+  function readURL(input) {
+    console.log("readURL() called");
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        document.getElementById("cover_image").src = e.target.result;
+        // set max  width 50% of screen width
+        document.getElementById("cover_image").style.maxWidth = "50%";
+        // set max height 300px% of screen height
+        document.getElementById("cover_image").style.maxHeight = "300px";
+        document.getElementById("cover_image").style.display = "block";
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+
+{% endblock content %}

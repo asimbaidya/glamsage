@@ -1,0 +1,141 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="container mx-auto mt-2">
+  <!-- start tables -->
+  <div class="mt-2 overflow-x-auto rounded-md bg-slate-800">
+    <h1 class="text-center text-3xl">Clients</h1>
+    <table class="table">
+      <colgroup>
+        <col
+          span="1"
+          style="width: 5%;"
+        />
+      </colgroup>
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>profile</th>
+          <th>name</th>
+          <th>username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        {% for client in clients %}
+        <tr>
+          <th>1</th>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    src="{{client.profile_image}}"
+                    class="rounded-full"
+                    alt="Client"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{client.email}}</div>
+                <div class="text-sm opacity-50">From: {{client.location}}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            {{client.name}}
+            <br />
+            <span class="badge badge-success badge-sm"
+              >Total Order: {{client.total_order}}</span
+            >
+          </td>
+          <td>{{client.username}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>SL</th>
+          <th>profile</th>
+          <th>name</th>
+          <th>username</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- Provider -->
+<div class="container mx-auto mt-2">
+  <!-- start tables -->
+  <div class="mt-2 overflow-x-auto rounded-md bg-slate-800">
+    <h1 class="text-center text-3xl">Providers</h1>
+    <table class="table">
+      <colgroup>
+        <col
+          span="1"
+          style="width: 5%;"
+        />
+      </colgroup>
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>profile</th>
+          <th>name</th>
+          <th>username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        {% for provider in providers %}
+        <tr>
+          <th>1</th>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    src="{{provider.profile_image}}"
+                    class="rounded-full"
+                    alt="Client"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{provider.email}}</div>
+                <div class="text-sm opacity-50">
+                  From: {{provider.location}}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            {{provider.name}}
+            <br />
+            <span class="badge badge-error badge-sm"
+              >Total Order: {{provider.total_order}}</span
+            >
+          </td>
+          <td>{{provider.username}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>SL</th>
+          <th>profile</th>
+          <th>name</th>
+          <th>username</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+{% endblock content %}

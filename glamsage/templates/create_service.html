@@ -1,0 +1,140 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div
+  class="form-container container mx-auto min-h-full rounded-sm  bg-slate-800 p-8"
+>
+  <!-- Check if the user is logged in as a provider or a regular user -->
+  {% if session.get('current_user') and
+  session.get('current_user')['_is_authenticated'] %}
+  <!--  -->
+  <div class="form-container">
+    <form
+      method="POST"
+      action="{{ url_for('services.create_service') }}"
+      enctype="multipart/form-data"
+      class="mx-auto max-w-md"
+    >
+      <div class="mb-4">
+        <label
+          for="title"
+          class="text-sm font-medium text-gray-600"
+          >Service Title</label
+        >
+        <input
+          type="text"
+          class="mt-1 w-full rounded-md border border-gray-300 p-2"
+          name="title"
+          required
+        />
+      </div>
+
+      <!-- Service Description -->
+      <div class="mb-4">
+        <label
+          for="description"
+          class="text-sm font-medium text-gray-600"
+          >Service Description</label
+        >
+        <textarea
+          class="mt-1 w-full rounded-md border border-gray-300 p-2"
+          name="description"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Price -->
+      <div class="mb-4">
+        <label
+          for="price"
+          class="text-sm font-medium text-gray-600"
+          >Price</label
+        >
+        <input
+          type="number"
+          class="mt-1 w-full rounded-md border border-gray-300 p-2"
+          name="price"
+          required
+        />
+      </div>
+
+      <!-- Cover Image -->
+      <div class="mb-4">
+        <label
+          for="cover_image"
+          class="text-sm font-medium text-gray-600"
+          >Cover Image</label
+        >
+        <input
+          type="file"
+          name="cover_image"
+          id="cover_image"
+          onchange="readURL(this)"
+          class="mt-1 w-full rounded-md border border-gray-300 p-2"
+        />
+        <img
+          id="cover_image_preview"
+          src="#"
+          alt="Cover Image"
+          class="mt-2 hidden h-auto max-w-full"
+        />
+      </div>
+
+      <!-- Category -->
+      <div class="mb-4">
+        <label
+          for="category"
+          class="text-sm font-medium text-gray-600"
+          >Category</label
+        >
+        <input
+          type="text"
+          class="mt-1 w-full rounded-md border border-gray-300 p-2"
+          name="category"
+          required
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="mx-auto block rounded-md bg-blue-500 px-4 py-2 text-white"
+      >
+        Add New Service
+      </button>
+    </form>
+  </div>
+
+  {% endif %}
+</div>
+
+<script>
+  function readURL(input) {
+    console.log("readURL() called");
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        document.getElementById("cover_image").src = e.target.result;
+        // set max  width 50% of screen width
+        document.getElementById("cover_image").style.maxWidth = "50%";
+        // set max height 300px% of screen height
+        document.getElementById("cover_image").style.maxHeight = "300px";
+        document.getElementById("cover_image").style.display = "block";
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+
+<script>
+  // Initialize Flatpickr on the date input field
+  flatpickr("#discount_valid", {
+    enableTime: true, // if you want to include time
+    dateFormat: "Y-m-dTH:i", // customize the date and time format
+    time_24hr: true, // if you want to use 24-hour time format
+  });
+</script>
+{% endblock content %}

@@ -1,0 +1,75 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+  {% if session.get('logged_in') and session.get('provider') or session.get("user") %}
+
+<form
+  method="POST"
+  action=""
+  enctype="multipart/form-data"
+>
+  <div class="mb-3">
+    <label
+      for=""
+      class="form-label"
+      >Post</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      name="post"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label
+      for=""
+      class="form-label"
+      >Cover Image</label
+    >
+    <input
+      class="form-control"
+      id=""
+      type="file"
+      name="cover_image"
+      onchange="readURL(this)"
+    />
+    <img
+      id="cover_image"
+      src="#"
+      alt="Cover Image"
+      style="display: none"
+    />
+  </div>
+  <!-- add condition -->
+  <button
+    type="submit"
+    style="margin: auto; display: block; min-width: 20em"
+    class="btn-danger btn"
+  >
+    Add New Post
+  </button>
+</form>
+<!-- prettier-ignore -->
+{% endif %}
+  {% for post in posts %}
+<div class="card mb-3">
+  <div class="flex flex-wrap">
+    <div class="w-full md:w-4/12">
+      <!-- col-md-4 -->
+      <!-- You can put content for col-md-4 here if needed -->
+    </div>
+    <div class="w-full md:w-8/12">
+      <!-- col-md-8 -->
+      <div class="card-body p-4">
+        <h5 class="card-title text-xl font-bold">{{ post.post }}</h5>
+        <p class="card-text">
+          <small class="text-muted">{{ post.created_at }}</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- prettier-ignore -->
+{% endfor %}
+{% endblock content %}

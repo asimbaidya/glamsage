@@ -1,0 +1,221 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="bg-blue-600 p-8 text-purple-200">
+  <form
+    method="GET"
+    id="searchForm"
+    class="search-form"
+    onsubmit="handleSearchFormSubmit()"
+    class="bg-black hover:bg-slate-600"
+  >
+    <!-- search input -->
+    <label for="search">Search:</label>
+
+    <!-- input:  search -->
+    <input
+      type="text"
+      placeholder="Type here"
+      class="max-w- xs input input-bordered input-primary m-4 block w-full min-w-full"
+      name="search"
+      id="search"
+      value="{{ search }}"
+      oninput="handleSearch()"
+    />
+
+    <!-- type -->
+    <div class="type">
+      <label for="type">Type:</label>
+      <select
+        name="type"
+        id="type"
+        onchange="handleTypeClick()"
+      >
+        {% if (type_value == "Client") %}
+        <option value="Services">Service</option>
+        <option
+          value="Client"
+          selected
+        >
+          Client
+        </option>
+        {% else %}
+        <option
+          value="Services"
+          selected
+        >
+          Service
+        </option>
+        <option value="Client">Client</option>
+        {% endif %}
+      </select>
+    </div>
+
+    <!-- sort -->
+    <div class="sort">
+      <label>Sort Order:</label>
+      <button
+        type="button"
+        class="btn btn-primary"
+        onclick="handleOrderClick('Ascending')"
+      >
+        Ascending
+      </button>
+      <button
+        type="button"
+        onclick="handleOrderClick('Descending')"
+        class="btn btn-primary"
+      >
+        Descending
+      </button>
+      <!-- input: sort_order -->
+      <input
+        type="hidden"
+        name="sort_order"
+        id="sort_order"
+        value="{{ sort_order }}"
+      />
+    </div>
+
+    <!-- category -->
+    <div class="category">
+      <label>Category or Services:</label>
+      <button
+        type="button"
+        id="{{category_option}}"
+        class="btn btn-primary"
+        onclick="handleCategoryClick('Cat1')"
+      >
+        cat1
+      </button>
+      <button
+        type="button"
+        id="{{category_option}}"
+        class="btn btn-primary"
+        onclick="handleCategoryClick('Cat2')"
+      >
+        cat3
+      </button>
+      <button
+        type="button"
+        id="{{category_option}}"
+        class="btn btn-primary"
+        onclick="handleCategoryClick('Cat3')"
+      >
+        Cat3
+      </button>
+      {% for category_option in categories %}
+
+      <button
+        type="button"
+        id="{{category_option}}"
+        classs="btn btn-primary"
+        onclick="handleCategoryClick('{{ category_option }}')"
+      >
+        {{ category_option }}
+      </button>
+      {% endfor %}
+      <!-- input: category -->
+      <input
+        type="hidden"
+        name="category"
+        id="selected_category"
+        value="{{ category }}"
+      />
+    </div>
+  </form>
+</div>
+
+<div
+  id="searchResults"
+  class="result bg-purple-600  p-8 text-purple-200"
+>
+  <h2 class="btn btn-primary">Empty</h2>
+</div>
+
+<script>
+  function updateSearchResults() {
+    // Get the values for your parameters
+    var search = getSearch();
+    var type = getType();
+    var order = getOrder();
+    var category = getCategory();
+
+    // Construct the URL with query parameters
+    var url =
+      '/search_results?' +
+      'search=' +
+      encodeURIComponent(search) +
+      '&type=' +
+      encodeURIComponent(type) +
+      '&sort_order=' +
+      encodeURIComponent(order) +
+      '&category=' +
+      encodeURIComponent(category);
+      htmx.ajax('GET', `${url}` ,{target:'#searchResults', swap:'innerHTML','HX-Replace-Url':true})
+      // <!-- hx-replace-url="true" -->
+
+    // // Make the GET request
+    // history.pushState(null, '', url);
+    // fetch(url, {
+    //   method: 'GET',
+    //   headers: {
+    //     'X-Data-Type': 'json',
+    //   },
+    // })
+    //   .then((response) => response.text())
+    //   .then((data) => {
+    //     document.getElementById('searchResults').innerHTML = data;
+    //     console.log('🔴 New search request was sent', data);
+    //   })
+    //   .catch((error) => {
+    //     console.log('Error:', error);
+    //     alert(
+    //       "You've got disconnected from the server, check your internet connection"
+    //     );
+    //   });
+  }
+
+  function handleSearchFormSubmit() {
+    event.preventDefault();
+    updateSearchResults();
+  }
+  function handleSearch() {
+    updateSearchResults();
+  }
+  function handleTypeClick(type) {
+    type_value = getType();
+    document.getElementById('type').value = type_value;
+    updateSearchResults();
+  }
+
+  // update the sort order value and submit the form
+  function handleOrderClick(sortOrder) {
+    alert(sortOrder)
+    selectedSortOrder = sortOrder;
+    document.getElementById('sort_order').value = sortOrder;
+    updateSearchResults();
+  }
+  // update the category value and submit the form
+  function handleCategoryClick(selectedCategory) {
+    document.getElementById('selected_category').value = selectedCategory;
+    updateSearchResults();
+  }
+  // get search value
+  function getSearch() {
+    return document.getElementById('search').value;
+  }
+  // get type value
+  function getType() {
+    return document.getElementById('type').value;
+  }
+  function getOrder() {
+    return document.getElementById('sort_order').value;
+  }
+  function getCategory() {
+    return document.getElementById('selected_category').value;
+  }
+</script>
+
+{% endblock content %}

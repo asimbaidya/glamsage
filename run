@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -e
+
+# bun run wind &
+# python app.py
+
+# assuming tmux is running
+
+# run the first command in a split pane
+# tmux split-window -h "bun run wind"
+
+# for life compilation of tailwind
+tmux split-window -v "bun run wind"
+
+# bor automatic re-load in the browser (delay 800ms)
+# tmux split-window -v "bun x browser-sync start --proxy 'localhost:5000' --no-open --no-notify --reload-delay 800 --files 'glamsage/static/**/*, glamsage/templates/**/*'"
+
+tmux split-window -v "bun x browser-sync start --proxy 'localhost:5000' --no-open --no-notify  800 --files 'glamsage/static/**/*, glamsage/templates/**/*'"
+
+while true; do
+	pipenv run python app.py || sleep 0.5 && echo "Trying to restart server..."
+done

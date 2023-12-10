@@ -1,0 +1,44 @@
+<!-- metas -->
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+/>
+
+<!-- favicon -->
+<link
+  rel="icon"
+  type="image/x-icon"
+  href="{{ url_for('static', filename='media/main/favicon.ico') }}"
+/>
+
+<!-- tailwind -->
+<link
+  href="{{ url_for('static',filename='lib/tailwind/build/out.css') }}"
+  rel="stylesheet"
+/>
+<!-- jquery -->
+<script src='{{url_for("static",filename="lib/jquery/jquery-3.7.1.min.js")}}'></script>
+<!-- htmx -->
+<script
+  defer
+  src='{{ url_for("static",filename="lib/htmx/htmx.min.js") }}'
+></script>
+<!-- alpine -->
+<script
+  defer
+  src='{{ url_for("static",filename="lib/alpine/alpine.min.js") }}'
+></script>
+
+<!-- custom -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/style.css') }}"
+/>
+
+<!-- Include Flatpickr from CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

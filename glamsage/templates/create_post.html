@@ -1,0 +1,34 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div
+  class="form-container container mx-auto min-h-full rounded-sm  bg-slate-800 p-8"
+>
+  <!-- Check if the user is logged in as a provider or a regular user -->
+  {% if session.get('current_user') and
+  session.get('current_user')['_is_authenticated'] %}
+  <form
+    method="POST"
+    action="{{ url_for('posts.create_post' ) }}"
+    class="mx-auto max-w-md"
+  >
+    <div class="mb-4">
+      <textarea
+        class="mt-1 w-full rounded-md border border-gray-300 p-2 text-black"
+        name="post"
+        required
+        placeholder="we appreciate your feedback ..."
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      class="mx-auto block rounded-md bg-red-500 px-4 py-2 text-white"
+    >
+      Add New Post
+    </button>
+  </form>
+  {% endif %}
+</div>
+
+{% endblock content %}

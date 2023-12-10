@@ -1,0 +1,57 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="container mx-auto">
+  <div class="carousel carousel-end rounded-sm">
+    <div class="carousel-item">
+      <img src="static/media/main/home-cover-01.png" />
+    </div>
+    <div class="carousel-item">
+      <img src="static/media/main/home-cover-02.png" />
+    </div>
+    <div class="carousel-item">
+      <img src="static/media/main/home-cover-03.png" />
+    </div>
+  </div>
+</div>
+
+<!--  -->
+<div class="container mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+  {% for post in posts %}
+  <div class="min-w-96 card m-1 rounded-md bg-primary text-primary-content">
+    <div class="card-body">
+      <div>
+        <img
+          class="inline-block h-12 w-12 rounded-full"
+          src="{{post.profile_image}}"
+          alt=""
+        />
+        <h2 class="card-title ml-4 inline-block">{{post.client}}</h2>
+      </div>
+      <p>{{post.post}}</p>
+      <div class="card-actions justify-end">
+        <span class=""
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="inline-block h-6 w-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          {{post.date.strftime('%I:%M%p, %b %d/%y')}}</span
+        >
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}

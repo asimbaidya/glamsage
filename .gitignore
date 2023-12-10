@@ -1,4 +1,17 @@
+# directory 
 test
+
+
+# db
 instance
+
+# pycache
 __pycache__
+
+
+# files
+
+# env
+.env
+
 

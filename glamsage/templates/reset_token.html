@@ -1,0 +1,43 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="btn-outline-warning btn mb-2">
+  <a
+    class="text-decoration-none"
+    href='{{ url_for("providers.register") }}'
+    >Join as Provider</a
+  >
+</div>
+
+<div
+  class="form-container p-4"
+  style="background-color: antiquewhite"
+>
+  <form
+    method="POST"
+    action=""
+  >
+    <div class="mb-3">
+      <label
+        for="password"
+        class="form-label"
+        >New Password</label
+      >
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        required
+      />
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >
+      Submit
+    </button>
+  </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,6 @@
+{
+  "singleAttributePerLine": true,
+  "bracketSameLine": false,
+  "embeddedLanguageFormatting": "off",
+  "plugins": ["prettier-plugin-tailwindcss"],
+}

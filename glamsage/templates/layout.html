@@ -1,108 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html
+  lang="en"
+  data-theme="default"
+>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>glansage</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
+    <!-- prettier-ignore -->
+    {% include 'head.html' %}
   </head>
-  <body>
-    <div class="container">
-      <!-- navbar -->
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/">GlamSage</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  aria-current="page"
-                  href="{{url_for('home')}}"
-                  >Services</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('about')}}"
-                  >about</a
-                >
-              </li>
-            </ul>
-            <!--  -->
-            {% if session.get('logged_in') %}
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('account')}}"
-                  >Account</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('logout') }}"
-                  >Logout</a
-                >
-              </li>
-            </ul>
-            <!--  -->
-            {% else %}
-            <!--  -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('login')}}"
-                  >Login</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('register') }}"
-                  >Register</a
-                >
-              </li>
-            </ul>
-            {% endif %}
-          </div>
-        </div>
-      </nav>
 
-      <!-- flash messages -->
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      <!--  -->
-      {% if messages %}
-      <!--  -->
-      {% for category, message in messages %}
-      <!--  -->
-      <div class="alert alert-{{ category }}">{{ message }}</div>
-      <!--  -->
-      {% endfor %}
-      <!--  -->
-      {% endif %}
-      <!--  -->
-      {% endwith %}
+  <body id="body">
+    <!-- nav bar halding -->
+    <!-- prettier-ignore -->
+    {% if session.get('current_user') and session.get('current_user')['_is_admin'] %}
+      {% include 'nav/admin.html' %}
+    {% elif session.get('current_user') and session.get('current_user')['_is_provider'] %}
+      {% include 'nav/provider.html' %}
+    {% else %}
+      {% include 'nav/client.html' %}
+    {% endif %}
 
-      <!--  -->
+    <!--  -->
+    {% include 'flash.html' %}
+
+    <!-- the main container that keep all content(top level) -->
+    <!-- prettier-ignore -->
+    <div id="_content" class="min-h-full slide-it">
       {% block content %}
-      <!--   Content goes here -->
       {% endblock %}
     </div>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
   </body>
 </html>

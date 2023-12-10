@@ -1,0 +1,286 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="container mx-auto mt-2">
+  <div
+    x-data="{ open: false }"
+    class="mx-auto rounded-md bg-slate-800 p-8 shadow-md"
+  >
+    <button
+      class="mx-auto inline-block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      @click="open = true"
+    >
+      Enter BkashTransaction ID
+    </button>
+
+    <span x-show="open">
+      <form
+        action="{{ url_for('payments.add_bkash_trx',username=session.get('current_user')['username'] ) }}"
+        method="POST"
+      >
+        <div class="m-4">
+          <input
+            required
+            name="bkash_trx"
+            type="text"
+            placeholder="Enter Trx ID"
+            class="input input-bordered input-secondary mx-2 w-full max-w-xs"
+          />
+          <input
+            required
+            type="number"
+            name="amount"
+            placeholder="Enter amount ৳৳৳"
+            class="input input-bordered input-accent mx-2 w-full max-w-xs"
+          />
+
+          <button
+            type="submit"
+            class="btn btn-primary mx-2"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </span>
+  </div>
+  <!-- start tables -->
+  <div class="mt-2 overflow-x-auto rounded-md bg-slate-700">
+    <table class="table">
+      <colgroup>
+        <col
+          span="1"
+          style="width: 5%;"
+        />
+      </colgroup>
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>Due Date</th>
+          <th>Client</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- prettier-ignore -->
+        {% for order in orders %}
+        <tr>
+          <th class="text-2xl">1</th>
+          <td class="text-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="mr-1 inline-block h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+              />
+            </svg>
+            {{ order.due_date.strftime('%I:%M%p, %b %d/%y') }}
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    class="rounded-full"
+                    src="{{ order.client_profile }}"
+                    alt="Avatar Tailwind CSS Component"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{order.client_name}}</div>
+                <div class="text-sm opacity-50">
+                  Num of Services: {{order.total_services}}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="text-xl">৳{{order.price}}</td>
+
+          <td>
+            <!-- prettier-ignore -->
+            {% if order.status == "Confirmed" %}
+            <div class="badge badge-success rounded-md px-8 py-6">
+              {{order.status}}(Paid with {{order.payment_method}})
+            </div>
+            {% else %}
+            <div class="badge badge-info rounded-md px-8 py-6">
+              {{order.status}}
+            </div>
+            {% endif %}
+          </td>
+          <th>
+            {% if order.status == "Pending" %}
+            <a
+              class="btn btn-success px-14"
+              href="{{ url_for('services.cash_confirm_order', order_id=order.id) }}"
+              >Confirm Payment</a
+            >
+            {% elif order.status == "PrePaid" %}
+            <a
+              class="btn btn-success px-14"
+              href="{{ url_for('services.bcash_confirm_order', order_id=order.id) }}"
+              >Mark as Complete</a
+            >
+            {% elif order.status == "Cancelled" %}
+            <button
+              class="btn btn-error px-14"
+              id="_calcelled"
+            >
+              Info!
+            </button>
+            {% else %}
+            <button
+              class="btn btn-primary px-14"
+              id="_pay_commission"
+            >
+              Pay commission
+            </button>
+            {% endif %}
+          </th>
+        </tr>
+        <!-- prettier-ignore -->
+        {% endfor %}
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>SL</th>
+          <th>Client</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+{% if total_payments != 0 %}
+<div class="container mx-auto mt-2">
+  <div
+    x-data="{ open: false }"
+    class="mx-auto rounded-md bg-slate-800 p-8 shadow-md"
+  >
+    <button
+      class="mx-auto inline-block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      @click="open = true"
+    >
+      Open Payments
+    </button>
+
+    <div x-show="open">
+      <div class="mt-2 overflow-x-auto rounded-md bg-slate-700">
+        <table class="table">
+          <colgroup>
+            <col
+              span="1"
+              style="width: 5%;"
+            />
+          </colgroup>
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Date</th>
+              <th>amount</th>
+              <th>Method</th>
+              <th>is_verified</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- prettier-ignore -->
+            {% for payment in payments %}
+            <tr>
+              <th class="text-2xl">1</th>
+              <td class="text-xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="mr-1 inline-block h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+                  />
+                </svg>
+                {{ payment.date.strftime('%I:%M%p, %b %d/%y') }}
+              </td>
+              <td class="text-xl">৳{{payment.amount}}</td>
+              <td>
+                <div class="badge badge-primary rounded-md px-8 py-6">
+                  {{payment.method}}
+                </div>
+              </td>
+              <th>
+                {% if payment.is_verified %}
+                <div class="badge badge-info rounded-md px-8 py-6">
+                  Verified
+                </div>
+                {% else %}
+                <div class="badge badge-error rounded-md px-8 py-6">
+                  Not Verified Yet
+                </div>
+                {% endif %}
+              </th>
+            </tr>
+            <!-- prettier-ignore -->
+            {% endfor %}
+          </tbody>
+          <!-- foot -->
+          <tfoot>
+            <tr>
+              <th>SL</th>
+              <th>Date</th>
+              <th>amount</th>
+              <th>Method</th>
+              <th>is_verified</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+
+<div class="container mx-auto mt-2">
+  <div class="mx-auto rounded-md bg-slate-800 p-8 shadow-md">
+    <div class="badge badge-info rounded-md px-8 py-6">
+      No Payment Yet to show
+    </div>
+  </div>
+</div>
+
+{% endif %}
+
+<script>
+  document.querySelectorAll("#_pay_commission").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      alert("Pay commission");
+    });
+  });
+
+  document.querySelectorAll("#_calcelled").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      alert("Client cancelled the order :/");
+    });
+  });
+</script>
+<!-- Old Design -->
+{% endblock content %}

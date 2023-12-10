@@ -1,0 +1,29 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<img
+  class="rounded-circle  mx-auto mt-4 block max-w-3xl rounded-md"
+  src="{{ url_for('static', filename='media/main/brand.png') }}"
+/>
+<div class="p-4">
+  <h1 class="text-brand-color text-center text-4xl font-extrabold">
+    Welcome to Glamsage...
+  </h1>
+</div>
+<div class="p-4">
+  <h1 class="text-brand-color text-center text-4xl">
+    Glamsage Provide easy interface for booking and setting appoinment for your
+    salon services
+  </h1>
+</div>
+
+<!-- update title -->
+<script>
+  $(document).prop("title", "About");
+  console.log("title updated");
+
+  console.log("{{title}}");
+</script>
+
+{% endblock content%}

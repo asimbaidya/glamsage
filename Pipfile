@@ -23,6 +23,9 @@ six = "*"
 sqlalchemy = "*"
 werkzeug = "*"
 wtforms = "*"
+python-dotenv = "*"
+colorlog = "*"
+uwsgi = "*"
 
 [dev-packages]
 

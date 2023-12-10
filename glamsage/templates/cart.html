@@ -1,0 +1,273 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div id="flash"></div>
+
+<div class="container mx-auto mt-8 max-w-3xl rounded-md bg-gray-500 p-4">
+  <h1 class="mx-auto mb-4 text-center text-2xl font-bold">Your Cart</h1>
+  <!-- if chert exist  -->
+  {% if total_services == 0 %}
+  <div class="container mx-auto mt-2 text-center">
+    <a
+      class="btn btn-primary mx-auto"
+      href="{{url_for('services.all_service')}}"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="h-10 w-10"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+        />
+      </svg>
+      <span class="">Cart is empty, Please add services First</span>
+    </a>
+  </div>
+  {% else %}
+  <div class=" mx-auto mt-2 text-center">
+    <a
+      class="btn btn-primary mx-auto"
+      href="{{ url_for('services.clear_cart' ) }}"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="h-10 w-10"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+        />
+      </svg>
+      <span class="">Clear Cart</span>
+    </a>
+  </div>
+  <!-- service for each providers -->
+  <!-- prettier-ignore -->
+  {% if cart_w_providers %}
+  {% for provider,cart in cart_w_providers.items() %}
+
+  <!-- provider name -->
+  <h1
+    class="mt-5 rounded-md bg-primary p-2 text-center text-2xl font-bold text-white"
+  >
+    Added Services from <em class="text-black">{{ provider }}</em>
+  </h1>
+
+  <!-- part[2] service list -->
+  <!-- prettier-ignore -->
+  {% if cart %}
+  <div class="container mx-auto mt-5 max-w-lg">
+    <div class="row">
+      {% for item in cart %}
+      <div id="item_no_{{ item.id }}">
+        <div classs="">
+          <div class="">
+            <img
+              src="static/media/services/{{ item.cover_image }}"
+              class="max-w-xs rounded-full"
+              alt="{{ item.title }} Image"
+            />
+          </div>
+          <div class="m-2">
+            <h5 class="m-1 text-3xl">{{ item.title }}</h5>
+            <p class="m-1 text-xl">Price: ৳{{ item.price }}</p>
+            {% if item.discount %}
+            <p class="m-1 text-rose-800">
+              Discounted Price: ৳{{ item.price - item.discount }}
+            </p>
+            {% endif %}
+            <p class="btn disabled bg-primary py-2 hover:bg-primary">
+              Category: {{ item.category }}
+            </p>
+            <button
+              class="btn  btn-error btn-md"
+              onclick="removeFromCart('{{ item.id }}')"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- part[3] form for checkout-->
+    <div class="mx-auto mt-8 max-w-lg">
+      <form
+        method="post"
+        action="{{ url_for('services.make_order') }}"
+        class="mt-8 "
+      >
+        <div class="mb-4">
+          <input
+            type="hidden"
+            id="provider"
+            name="provider"
+            value="{{ provider }}"
+            class="w-full rounded-md border p-2"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label
+            for="app_date"
+            class="mb-2 block text-sm font-semibold"
+            >Appointment Date:</label
+          >
+          <input
+            type="date"
+            id="app_date"
+            name="app_date"
+            value="{{ app_date }}"
+            class="w-full rounded-md border p-2"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label
+            for="app_time"
+            class="mb-2 block text-sm font-semibold"
+            >Appointment Time:</label
+          >
+          <input
+            type="time"
+            id="app_time"
+            name="app_time"
+            value="{{ app_time }}"
+            class="w-full rounded-md border p-2"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <input
+            type="hidden"
+            id="price"
+            name="price"
+            value="{{ prices[provider] }}"
+            class="w-full rounded-md border p-2"
+          />
+        </div>
+
+        <div class="mb-4">
+          <div x-data="{ open: false }">
+            <div
+              type="menu"
+              @click="open = ! open"
+              class="btn btn-primary btn-sm m-2"
+            >
+              Paid Via Bkash?
+            </div>
+            <div x-show="open">
+              <label
+                for="bkash_trx"
+                class="mb-2 block text-sm font-semibold"
+                >Bkash Transaction ID(Optional):</label
+              >
+              <input
+                type="text"
+                id="bkash_trx"
+                name="bkash_trx"
+                value="{{ bkash_trx }}"
+                class="w-full rounded-md border p-2"
+                placeholder="Enter Bkash Transaction ID"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="rounded-md bg-blue-500 px-4 py-2 text-white"
+        >
+          Request for Appointment
+        </button>
+      </form>
+    </div>
+  </div>
+  <!-- prettier-ignore -->
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  {% endif %}
+</div>
+
+<script>
+  function removeFromCart(service_id) {
+    // Make a GET request to your server to add the service to the cart
+    $.get(
+      `/remove_from_cart?service_id=${service_id}`,
+      function (data, status) {
+      if (status == "success") {
+        console.log(data)
+        // todo handle rendering
+        const flag = data["flag"];
+        const msg = data["msg"];
+
+        // delete card
+        if (flag == 0) {
+          setTimeout(function() {
+            window.location.reload();
+          }, 500);
+        }
+
+         // show feedback message
+        const flash = document.createElement("div")
+        flash.innerHTML = msg;
+        flash.classList.add("flash_alert",  "text-white", "text-center", "p-2", "rounded-md", "my-2")
+        if (flag == 0) {
+          flash.classList.add("bg-green-500")
+        } else {
+          flash.classList.add("bg-red-500")
+        }
+
+        $(document).ready(function() {
+          setTimeout(function() {
+            $('.flash_alert').fadeOut('slow')
+          }, 3000);
+        })
+        document.querySelector("#flash").appendChild(flash)
+
+
+        // update cart count(2 place)
+        const cart_count = data["cart_count"];
+        const elements = document.querySelectorAll("#total_service");
+        if (elements) {
+          for (let ele of elements) {
+            ele.innerHTML = cart_count;
+          }
+        } else {
+          alert("#cart_count elements not found")
+        }
+        // update total price
+        const price_ele = document.querySelector("#total_price");
+        const total_price = data["total_price"];
+        if(price_ele){
+          price_ele.innerHTML = total_price;
+        }
+        else{
+          alert("#total_price element not found")
+        }
+      } else {
+        console.log("Server is not responding", status);
+      }
+      },
+    );
+  }
+</script>
+
+{% endblock content %}

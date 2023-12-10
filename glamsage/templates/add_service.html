@@ -1,0 +1,87 @@
+
+div class="form-container">
+  <!-- (start if - 1) -->
+  {% if session.get('logged_in') and session.get('provider') %}
+  <form
+    method="POST"
+    action=""
+    enctype="multipart/form-data"
+  >
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        >Title</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        
+        >Description</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        name="description"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="price"
+        class="form-label"
+        >Price</label
+      >
+      <div class="input-group mb-3">
+        <span class="input-group-text">৳</span>
+        <input
+          type="number"
+          class="form-control"
+          name="price"
+          required
+        />
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label
+        for=""
+        class="form-label"
+        >Cover Image</label
+      >
+      <input
+        class="form-control"
+        id=""
+        type="file"
+        name="cover_image"
+        onchange="readURL(this)"
+      />
+      <img
+        class=""
+        id="cover_image"
+        src="#"
+        alt="Cover Image"
+        style="display: none"
+      />
+    </div>
+    <!-- add condition -->
+    <button
+      type="submit"
+      style="margin: auto; display: block; min-width: 20em"
+      class="btn-danger btn p-2"
+    >
+      Add New Service
+    </button>
+  </form>
+  {% endif %}
+</div>

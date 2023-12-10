@@ -1,0 +1,239 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="container mx-auto mt-2 bg-slate-800">
+  <div
+    class="relative h-96 bg-cover bg-center"
+    style="background-image: url('{{cover_image}}')"
+  >
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center text-white">
+        <img
+          src="{{profile_image}}"
+          alt="Profile Image"
+          class="mx-auto mb-4 h-20 w-20 rounded-full"
+        />
+        <h1 class="text-2xl font-semibold">{{ provider.brand_title }}</h1>
+        <p class="text-gray-300">{{ provider.username }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-md p-8 shadow-md">
+    <div class="mt-6">
+      <h2 class="mb-2 text-lg font-semibold">Contact Information</h2>
+      <p>Email: {{ provider.email }}</p>
+      <p>Phone: {{ provider.phone or 'N/A' }}</p>
+      <p>Location: {{ provider.location or 'N/A' }}</p>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="mb-2 text-lg font-semibold">Business Details</h2>
+      <p>Opening Time: {{ provider.opening_time }}</p>
+      <p>Closing Time: {{ provider.closing_time }}</p>
+      <p>Weekdays: {{ provider.weekdays }}</p>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="mb-2 text-lg font-semibold">Social Media Links</h2>
+      <p>
+        Facebook:
+        <a
+          href="{{ provider.facebook_url }}"
+          target="_blank"
+          >{{ provider.facebook_url or 'N/A' }}</a
+        >
+      </p>
+      <p>
+        Instagram:
+        <a
+          href="{{ provider.instagram_url }}"
+          target="_blank"
+          >{{ provider.instagram_url or 'N/A' }}</a
+        >
+      </p>
+      <p>
+        Website:
+        <a
+          href="{{ provider.website_url }}"
+          target="_blank"
+          >{{ provider.website_url or 'N/A' }}</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
+<!-- update -->
+<div class="container mx-auto mt-2 rounded-md bg-slate-700">
+  <div
+    x-data="{ open: false }"
+    class="my-2"
+  >
+    <div class="mt-2">
+      <button
+        x-on:click="open = ! open"
+        class="m-auto mt-2  block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      >
+        Update Profile
+      </button>
+    </div>
+
+    <div x-show="open">
+      <div class="rounded-md p-8 shadow-md">
+        <h1 class="mb-4 text-2xl font-semibold">Update Profile</h1>
+
+        <form
+          method="post"
+          action="{{ url_for('providers.updateprovider',username=session.current_user['username']) }}"
+          enctype="multipart/form-data"
+        >
+          <!-- Brand Title -->
+          <div class="mb-4">
+            <label
+              for="brand_title"
+              class="block text-sm font-medium text-gray-600"
+              >Brand Title</label
+            >
+            <input
+              disabled
+              type="text"
+              name="brand_title"
+              value="{{ provider.brand_title }}"
+              class="mt-1 w-full rounded-md border border-gray-300 p-2"
+            />
+          </div>
+
+          <!-- Facebook URL, Instagram URL, Website URL -->
+          <div class="grid grid-cols-3 gap-4">
+            <div class="mb-4">
+              <label
+                for="facebook_url"
+                class="block text-sm font-medium text-gray-600"
+                >Facebook URL</label
+              >
+              <input
+                type="text"
+                name="facebook_url"
+                value="{{ provider.facebook_url }}"
+                class="mt-1 w-full rounded-md border border-gray-300 p-2"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="instagram_url"
+                class="block text-sm font-medium text-gray-600"
+                >Instagram URL</label
+              >
+              <input
+                type="text"
+                name="instagram_url"
+                value="{{ provider.instagram_url }}"
+                class="mt-1 w-full rounded-md border border-gray-300 p-2"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="website_url"
+                class="block text-sm font-medium text-gray-600"
+                >Website URL</label
+              >
+              <input
+                type="text"
+                name="website_url"
+                value="{{ provider.website_url }}"
+                class="mt-1 w-full rounded-md border border-gray-300 p-2"
+              />
+            </div>
+          </div>
+
+          <!-- Profile Image -->
+          <div class="mb-4">
+            <label
+              for="profile_image"
+              class="block text-sm font-medium text-gray-600"
+              >Profile Image</label
+            >
+            <input
+              type="file"
+              name="profile_image"
+              class="mt-1 rounded-md border border-gray-300 p-2"
+            />
+            <img
+              id="profile_image_preview"
+              src="{{profile_image}}"
+              alt="Profile Image"
+              class="mt-2  h-auto max-w-xs"
+            />
+          </div>
+
+          <!-- Cover Image -->
+          <div class="mb-4">
+            <label
+              for="cover_image"
+              class="block text-sm font-medium text-gray-600"
+              >Cover Image</label
+            >
+            <input
+              type="file"
+              name="cover_image"
+              class="mt-1 rounded-md border border-gray-300 p-2"
+            />
+            <img
+              id="cover_image_preview"
+              src="{{cover_image}}"
+              alt="Cover Image"
+              class="mt-2 h-auto max-w-xs"
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-6">
+            <button
+              type="submit"
+              class="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+              Update Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Function to preview profile image
+  function readProfileImage(input) {
+  		if (input.files && input.files[0]) {
+  				var reader = new FileReader();
+  				reader.onload = function (e) {
+  						document.getElementById('profile_image_preview').src = e.target.result;
+  				}
+  				reader.readAsDataURL(input.files[0]);
+  		}
+  }
+
+  // Function to preview cover image
+  function readCoverImage(input) {
+  		if (input.files && input.files[0]) {
+  				var reader = new FileReader();
+  				reader.onload = function (e) {
+  						document.getElementById('cover_image_preview').src = e.target.result;
+  				}
+  				reader.readAsDataURL(input.files[0]);
+  		}
+  }
+
+  // Attach event listeners to file input elements
+  document.querySelector('input[name="profile_image"]').addEventListener('change', function() {
+  		readProfileImage(this);
+  });
+
+  document.querySelector('input[name="cover_image"]').addEventListener('change', function() {
+  		readCoverImage(this);
+  });
+</script>
+<!-- prettier-ignore -->
+{% endblock content %}

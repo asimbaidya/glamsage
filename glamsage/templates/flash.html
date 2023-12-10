@@ -1,0 +1,24 @@
+<!-- prettier-ignore -->
+<div class="mx-auto flash-message">
+{% with errors = get_flashed_messages(category_filter=["success","danger","info","warning","primary","error"]) %}
+  {% if errors %}
+    {%- for msg in errors %}
+      <div role="alert" class="alert p-4 bg-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline-block">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+      </svg>
+        <span>{{msg}}</span>
+      </div>
+    {% endfor -%}
+  {% endif %}
+{% endwith %}
+</div>
+
+<script defer>
+
+  $(document).ready(function() {
+    setTimeout(function() {
+      $('.flash-message').fadeOut('slow')
+    }, 3000);
+  })
+</script>
