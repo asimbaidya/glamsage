@@ -1,0 +1,157 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="p-8 ">
+  <form
+    method="GET"
+    id="searchForm"
+    class="search-form"
+    onsubmit="handleSearchFormSubmit()"
+    class=""
+  >
+    <!-- input:  search -->
+    <input
+      type="text"
+      placeholder="Search here"
+      class="max-w- xs input input-bordered input-primary block w-full min-w-full"
+      name="search"
+      id="search"
+      value="{{ search }}"
+      oninput="handleSearch()"
+    />
+
+    <!-- category -->
+    <div class="category my-2">
+      <label class="text-lg">Category</label>
+      {% for category_option in categories %}
+      <button
+        type="button"
+        id="{{category_option}}"
+        class="btn btn-primary"
+        onclick="handleCategoryClick('{{ category_option }}')"
+      >
+        {{ category_option }}
+      </button>
+      {% endfor %}
+      <!-- input: category -->
+      <input
+        type="hidden"
+        name="category"
+        id="selected_category"
+        value="{{ category }}"
+      />
+    </div>
+
+    <!-- sort -->
+    <div class="sort my-2">
+      <label class="text-lg">Sort Order</label>
+      <button
+        type="button"
+        class="btn btn-primary"
+        onclick="handleOrderClick('Ascending')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4.5 12.75l7.5-7.5 7.5 7.5m-15 6l7.5-7.5 7.5 7.5"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        onclick="handleOrderClick('Descending')"
+        class="btn btn-primary"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+          />
+        </svg>
+      </button>
+      <!-- input: sort_order -->
+      <input
+        type="hidden"
+        name="sort_order"
+        id="sort_order"
+        value="{{ sort_order }}"
+      />
+    </div>
+  </form>
+</div>
+
+<div
+  id="searchResults"
+  class="result   p-8  "
+>
+  <h2 class="btn btn-error mx-auto block p-4">Nothing Matched</h2>
+</div>
+
+<script>
+  function updateSearchResults() {
+    // Get the values for your parameters
+    var search = getSearch();
+    var order = getOrder();
+    var category = getCategory();
+
+    // Construct the URL with query parameters
+    var url =
+      '/search_results?' +
+      'search=' +
+      encodeURIComponent(search) +
+      '&sort_order=' +
+      encodeURIComponent(order) +
+      '&category=' +
+      encodeURIComponent(category);
+      htmx.ajax('GET', `${url}` ,{target:'#searchResults', swap:'innerHTML','HX-Replace-Url':true})
+  }
+
+  function handleSearchFormSubmit() {
+    event.preventDefault();
+    updateSearchResults();
+  }
+  function handleSearch() {
+    updateSearchResults();
+  }
+
+  // update the sort order value and submit the form
+  function handleOrderClick(sortOrder) {
+    selectedSortOrder = sortOrder;
+    document.getElementById('sort_order').value = sortOrder;
+    updateSearchResults();
+  }
+  // update the category value and submit the form
+  function handleCategoryClick(selectedCategory) {
+    document.getElementById('selected_category').value = selectedCategory;
+    updateSearchResults();
+  }
+  // get search value
+  function getSearch() {
+    return document.getElementById('search').value;
+  }
+  function getOrder() {
+    return document.getElementById('sort_order').value;
+  }
+  function getCategory() {
+    return document.getElementById('selected_category').value;
+  }
+</script>
+
+{% endblock content %}

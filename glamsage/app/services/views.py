@@ -18,6 +18,7 @@ from glamsage import db  # type: ignore
 from glamsage.app.clients.models import Client
 from glamsage.app.payments.models import BkashPayment, Payment
 from glamsage.app.providers.models import Provider
+from glamsage.app.reviews.models import Review
 from glamsage.app.services.models import Order, Service
 from glamsage.models.utils import Cart, CurrentUser
 from glamsage.utils.file_manager import generate_unique_filename
@@ -342,7 +343,7 @@ def make_order():
 @services.route("/service/id/<int:service_id>")
 def service_by_id(service_id):
     service = Service.query.get_or_404(service_id)
-    reviews = []  # not my part
+    reviews = Review.query.filter_by(service_id=service_id).all()
     ratings = []
     for review in reviews:
         ratings.append(review.rating)

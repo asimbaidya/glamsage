@@ -1,6 +1,9 @@
 # directory 
 test
 
+# node modules
+node_modules
+
 
 # db
 instance
@@ -15,3 +18,5 @@ __pycache__
 .env
 
 
+# apart from this file, all other files are ignored
+glamsage/**/.gitignore

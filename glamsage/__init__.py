@@ -20,26 +20,34 @@ def create_app(config_class=Config):
     mail.init_app(app)
 
     from glamsage.app.admin.views import admins
+    from glamsage.app.clients.views import clients
     from glamsage.app.errors.handlers import errors
     from glamsage.app.glamsage.views import glamsage
     from glamsage.app.payments.views import payments
     from glamsage.app.posts.views import posts
     from glamsage.app.providers.views import providers
+    from glamsage.app.reviews.views import reviews
+    from glamsage.app.search.views import searches
     from glamsage.app.services.views import services
 
     app.register_blueprint(services)
     app.register_blueprint(admins)
+    app.register_blueprint(clients)
     app.register_blueprint(errors)
     app.register_blueprint(glamsage)
     app.register_blueprint(payments)
     app.register_blueprint(posts)
     app.register_blueprint(providers, url_prefix="/sellers")
+    app.register_blueprint(reviews)
+    app.register_blueprint(searches)
 
     # temporary import as most of the table  are already not located in the app folder
     from glamsage.app.admin.models import Admin
+    from glamsage.app.clients.models import Client
     from glamsage.app.payments.models import BkashPayment, Payment
     from glamsage.app.posts.models import Post
     from glamsage.app.providers.models import Provider
+    from glamsage.app.reviews.models import Rating, Reply, Review, ReviewLike
     from glamsage.app.services.models import Service
     from glamsage.models.complain import Flag, Report
     from glamsage.models.notification import Notification
