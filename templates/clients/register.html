@@ -1,0 +1,93 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="container mx-auto bg-black">
+  <form
+    method="POST"
+    class="bg-purple-200 p-4"
+    action="{{ url_for('clients.register' ) }}"
+  >
+    <div class="mb-3">
+      <label
+        for="first_name"
+        class="form-label"
+        >First Name</label
+      >
+      <input
+        type="text"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="first_name"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for="last_name"
+        class="form-label"
+        >Last Name</label
+      >
+      <input
+        type="text"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="last_name"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for="ClientName"
+        class="form-label"
+        >User Name</label
+      >
+      <input
+        type="text"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="username"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for="Email1"
+        class="form-label"
+        >Email address</label
+      >
+      <input
+        type="email"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="email"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label
+        for="Password1"
+        class="form-label"
+        >Password</label
+      >
+      <input
+        type="password"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="password"
+        required
+      />
+    </div>
+    <button
+      class="btn mt-2 p-1 px-8 hover:bg-purple-300"
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+</div>
+
+<div class="mt-4 flex items-center justify-center">
+  <a
+    class="btn-outline-warning text-decoration-none btn mb-2"
+    href='{{ url_for("clients.login") }}'
+    >Have a Account Already</a
+  >
+</div>
+
+{% endblock content %}

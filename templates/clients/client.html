@@ -1,0 +1,303 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="container mx-auto mt-2">
+  <div class="rounded-md bg-slate-800 p-8 shadow-md">
+    <img
+      src="{{ profile_image }}"
+      alt="Profile Image"
+      class="mx-auto mb-4 h-20 w-20 rounded-full transition duration-300 ease-in-out hover:scale-105 hover:transform"
+    />
+    <h1
+      class="text-center text-2xl font-semibold hover:scale-110 hover:transform"
+    >
+      {{ user.first_name }} {{ user.last_name }}
+    </h1>
+    <p class="text-center text-gray-800 hover:scale-110 hover:transform">
+      {{ user.username }}
+    </p>
+
+    <div class="mt-6">
+      <h2 class="mb-2 text-lg font-semibold">Contact Information</h2>
+      <p>Email: {{ user.email }}</p>
+      <p>Phone: {{ user.phone or 'N/A' }}</p>
+      <p>Location: {{ user.location or 'N/A' }}</p>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="mb-2 text-lg font-semibold">Notifications</h2>
+      <ul>
+        <!-- prettier-ignore -->
+        {% for notification in user.notifications %}
+        <li>{{ notification.content }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% if user.__class__.__name__ == 'Client' %}
+    <!-- Additional fields specific to Client -->
+    <div class="mt-6">
+      <h2 class="mb-2 text-lg font-semibold">Client-specific Information</h2>
+      <!-- include any additional fields specific to the client model -->
+    </div>
+    {% endif %}
+    <!-- add more sections as needed based on the user type -->
+
+    <!-- update profile -->
+    <div x-data="{ open: false }">
+      <button
+        x-on:click="open = ! open"
+        class="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      >
+        Toggle Update Profile
+      </button>
+
+      <div x-show="open">
+        <!--  -->
+        <div class="container mx-auto mt-8">
+          <div class="rounded-md bg-slate-700 p-8 shadow-md">
+            <h1 class="mb-4 text-2xl font-semibold">Edit Profile</h1>
+
+            {# comments action="{{ #}
+            <form
+              action="{{url_for('clients.updateclient',username=user.username) }}"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <!-- Profile Image -->
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-800"
+                  >Profile Image</label
+                >
+                <input
+                  type="file"
+                  name="profile_image"
+                  class="file-input file-input-bordered file-input-secondary w-full max-w-xs text-black"
+                />
+              </div>
+
+              <!-- First Name and Last Name -->
+              <div class="grid grid-cols-2 gap-4">
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-800"
+                    >First Name</label
+                  >
+                  <input
+                    required
+                    type="text"
+                    name="first_name"
+                    value="{{ user.first_name }}"
+                    class="mt-1 w-full rounded-md border border-gray-300 p-2  text-black"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-800"
+                    >Last Name</label
+                  >
+                  <input
+                    required
+                    type="text"
+                    name="last_name"
+                    value="{{ user.last_name }}"
+                    class="mt-1 w-full rounded-md border border-gray-300 p-2 text-black"
+                  />
+                </div>
+              </div>
+
+              <!-- Email, Phone, and Location -->
+              <div class="grid grid-cols-2 gap-4">
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-800"
+                    >Email</label
+                  >
+                  <input
+                    disabled
+                    type="email"
+                    name="email"
+                    value="{{ user.email }}"
+                    class="mt-1 w-full rounded-md border border-gray-300 p-2 text-black"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-800"
+                    >Phone</label
+                  >
+                  <input
+                    required
+                    type="text"
+                    name="phone"
+                    value="{{ user.phone }}"
+                    class="mt-1 w-full rounded-md border border-gray-300 p-2 text-black"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-800"
+                  >Location</label
+                >
+                <input
+                  required
+                  type="text"
+                  name="location"
+                  value="{{ user.location }}"
+                  class="mt-1 w-full rounded-md border border-gray-300 p-2 text-black"
+                />
+              </div>
+
+              <!-- Submit Button -->
+              <div class="mt-6">
+                <button
+                  type="submit"
+                  class="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                  Update Profile
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end of rounded-md bg-slate-800 p-8 shadow-md -->
+
+  {% if order_len != 0 %}
+
+  <!-- start tables -->
+  <div class="mt-2 overflow-x-auto rounded-md bg-slate-700">
+    <table class="table">
+      <colgroup>
+        <col
+          span="1"
+          style="width: 5%;"
+        />
+      </colgroup>
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>Due Date</th>
+          <th>Provider</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- prettier-ignore -->
+        {% for order in orders %}
+        <tr>
+          <th class="text-2xl">1</th>
+          <td>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="mr-1 inline-block h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+              />
+            </svg>
+            {{ order.due_date.strftime('%I:%M%p, %b %d/%y') }}
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    class="rounded-full"
+                    src="{{ order.provider_profile }}"
+                    alt="Avatar Tailwind CSS Component"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{order.provider_name}}</div>
+                <div class="text-sm opacity-50">{{order.total_services}}</div>
+              </div>
+            </div>
+          </td>
+          <td>৳{{order.price}}</td>
+          <td>
+            <!-- prettier-ignore -->
+            {% if order.status == "Confirmed" %}
+            <div class="badge badge-success rounded-md px-8 py-6">
+              {{order.status}}(Paid with {{order.payment_method}})
+            </div>
+            {% else %}
+            <div class="badge badge-info rounded-md px-8 py-6">
+              {{order.status}}
+            </div>
+            {% endif %}
+          </td>
+          <th>
+            {% if order.status == "Pending" %}
+            <a
+              class="btn btn-error px-14"
+              href="{{ url_for('services.cancel_order', order_id=order.id) }}"
+              >Cancecl</a
+            >
+            {% elif order.status == "Cancelled" %}
+            <button
+              class="btn btn-secondary px-14"
+              id="_calcelled"
+            >
+              Info!
+            </button>
+            {% elif order.status == "PrePaid" %}
+            <button class="btn btn-info px-14">😎 Uncancellable</button>
+            {% else %}
+            <button
+              class="btn btn-primary px-14"
+              id="_please_review"
+            >
+              Please Review
+            </button>
+            {% endif %}
+          </th>
+        </tr>
+        <!-- prettier-ignore -->
+        {% endfor %}
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>SL</th>
+          <th>Provider</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- prettier-ignore -->
+{% endif %}
+
+<script>
+
+  document.querySelectorAll("#_calcelled").forEach(function(button) {
+    button.addEventListener("click", function() {
+      alert("You Have  Cancelled this order, if this was mistake, order Again!");
+    });
+  }
+  )
+
+  document.querySelectorAll("#_please_review").forEach(function(button) {
+    button.addEventListener("click", function() {
+      alert("Your have Completed this order. Please review this order to help us improve our service.");
+    });
+  }
+  )
+</script>
+
+{% endblock content %}
