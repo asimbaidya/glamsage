@@ -1,0 +1,58 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="mx-auto max-w-md">
+  <form
+    method="POST"
+    action=""
+    class="bg-purple-200 p-4"
+  >
+    <div class="form-control">
+      <label
+        for="username"
+        class="form-label"
+        >Client Name</label
+      >
+      <input
+        type="text"
+        class="border: none rounded-lg bg-purple-100 p-1 outline-none focus:rounded-sm"
+        name="username"
+        required
+      />
+    </div>
+    <div class="form-control">
+      <label
+        for="password"
+        class="form-label"
+        >Password</label
+      >
+      <input
+        type="password"
+        class="form-control rounded-lg bg-purple-100 p-1"
+        name="password"
+        required
+      />
+    </div>
+    <button
+      class="btn mx-auto mt-2 p-1 px-8 "
+      type="submit"
+    >
+      Login
+    </button>
+    <a
+      class="link m-4 hover:bg-black"
+      href='{{ url_for("clients.reset_request") }}'
+      >Forgot Password?</a
+    >
+  </form>
+</div>
+
+<div class="mt-4 flex items-center justify-center">
+  <a
+    class="btn btn-link bg-purple-200 no-underline hover:bg-purple-400 hover:text-xs hover:no-underline"
+    href='{{ url_for("clients.register") }}'
+    >Don't have a accoutt? Join</a
+  >
+</div>
+{% endblock content %}
