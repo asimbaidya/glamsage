@@ -66,7 +66,7 @@ pipenv run python3 app.py
 ![About Page with Brand Info](./sample/about.png)
 ![Home Slide show](./sample/home-page-1.png)
 ![Home page with user Post](./sample/home-page-2.png)
-![Servie Listing](./sample/service-page)
+![Servie Listing](./sample/service-page.png)
 ![Responsive Search Page](./sample/search.png)
 
 ## Issue
