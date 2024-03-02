@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "wind": "bun x tailwindcss -o ./glamsage/static/lib/tailwind/build/out.css --watch",
     "wind:p": "bun x tailwindcss -o ./glamsage/static/lib/tailwind/build/out.css -m",
-    "postcss": "bun x postcss  ./glamsage/static/lib/tailwind/build/out.css -w"
+    "postcss": "bun x postcss  ./glamsage/static/lib/tailwind/build/out.css -w",
+    "dev": "npx tailwindcss -o ./glamsage/static/lib/tailwind/build/out.css --watch",
+    "build": "npx tailwindcss -o ./glamsage/static/lib/tailwind/build/out.css"
   },
   "keywords": [],
   "author": "",
