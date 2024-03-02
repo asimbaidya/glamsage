@@ -36,7 +36,7 @@ pipenv install
 pipenv run python3 utils/database-init.py
 ```
 
-> this should output this
+> above command should output this
 
 ```text
 admin table created
