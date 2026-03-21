@@ -20,3 +20,5 @@ __pycache__
 
 # apart from this file, all other files are ignored
 glamsage/**/.gitignore
+
+.DS_Store
